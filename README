@@ -1,1 +1,7 @@
 This demonstrates a bug with ActiveRecord in Rails 3.1
+
+After downloading the application, run `rake db:create db:migrate test` to view the failing test case.
+
+See `test/units/person_test.rb` for the tests that show how to recreate the error.
+
+The problem occurs when performing a search query with a word that's at least two characters and ends in a period. In these cases, the eager loading `includes()` command gets expanding inline into the SQL query, and the original `select` clause is ignored. This results in a crash when other parts of the SQL statement rely on the provided SQL statement.
